@@ -148,7 +148,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>IP602</finalName>
+		<finalName>spl-validator</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
