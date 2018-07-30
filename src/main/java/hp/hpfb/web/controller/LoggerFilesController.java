@@ -22,7 +22,7 @@ public class LoggerFilesController {
 	@RequestMapping(value="/admin/logfiles", method=RequestMethod.GET)
     public String renderXml(Model model, HttpServletRequest req){
 		model.addAttribute("userFile", new UserFile());
-      String userPath = "../../logs/";
+      String userPath = getLogsRoot("../logs");
       try {
 	    model.addAttribute("files", loadAll(userPath));
 		return "logfiles";
@@ -46,6 +46,13 @@ public class LoggerFilesController {
 			return Arrays.stream(list).map(item -> "/spl-validator/admin/logfile/".concat(item)).collect(Collectors.toList());
 		}
 		return null;
+    }
+    private String getLogsRoot(String logRoot) {
+    	File dir = new File(logRoot);
+    	if(dir == null || ! dir.isDirectory()) {
+    		getLogsRoot("../" + logRoot);
+    	}
+    	return logRoot;
     }
 
 }
