@@ -24,7 +24,8 @@ public class LoggerFilesController {
 		model.addAttribute("userFile", new UserFile());
       String userPath = getLogsRoot("../logs");
       try {
-	    model.addAttribute("files", loadAll(userPath));
+    	  model.addAttribute("logDir", userPath);
+    	  model.addAttribute("files", loadAll(userPath));
 		return "logfiles";
       } catch(Exception e) {
 			model.addAttribute("errorMsg",  "Errors:\n" + e.getClass().getSimpleName() + "\n" + StringUtils.join(e.getStackTrace(), "\n"));
@@ -48,9 +49,9 @@ public class LoggerFilesController {
 		return null;
     }
     private String getLogsRoot(String logRoot) {
-    	File dir = new File(logRoot);
-    	if(dir == null || ! dir.isDirectory()) {
-    		getLogsRoot("../" + logRoot);
+    	File dir = null;
+    	while((dir= new File(logRoot)) == null || ! dir.isDirectory()) {
+    		logRoot = "../" + logRoot;
     	}
     	return logRoot;
     }
