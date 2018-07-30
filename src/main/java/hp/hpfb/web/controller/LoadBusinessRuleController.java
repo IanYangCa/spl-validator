@@ -40,7 +40,7 @@ public class LoadBusinessRuleController {
       model.addAttribute("files", loadAll(userPath));
 		return "loadBusinessRule";
     }
-	@RequestMapping(value="/admin/loadBusinessRule", method=RequestMethod.POST)
+	@RequestMapping(value="/spl-validator/admin/loadBusinessRule", method=RequestMethod.POST)
     public String renderXml(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) throws Exception {
 		String outputDir = utilities.SRC_RULES_DIR;
 		File dir = new File(outputDir);
@@ -55,7 +55,7 @@ public class LoadBusinessRuleController {
         model.addAttribute("userFile", userFile);
 		return "loadBusinessRuleDone";
     }
-    @RequestMapping("/admin/businessRule/{filename:.+}")
+    @RequestMapping("/spl-validator/admin/businessRule/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -79,7 +79,7 @@ public class LoadBusinessRuleController {
     				return name.startsWith("business", 0);
     			}
     		});
-    		return Arrays.stream(list).map(item -> "/admin/businessRule/".concat(item)).collect(Collectors.toList());
+    		return Arrays.stream(list).map(item -> "/spl-validator/admin/businessRule/".concat(item)).collect(Collectors.toList());
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
