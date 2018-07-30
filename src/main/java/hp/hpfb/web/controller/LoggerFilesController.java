@@ -34,13 +34,18 @@ public class LoggerFilesController {
     public List<String> loadAll(String root){
     	
 		File dir = new File(root);
+		
 		String[] list = dir.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.endsWith(".log");
+				return true;
+//				return name.endsWith(".log");
 			}
 		});
-		return Arrays.stream(list).map(item -> "/spl-validator/admin/logfile/".concat(item)).collect(Collectors.toList());
+		if(list != null && list.length > 0) {
+			return Arrays.stream(list).map(item -> "/spl-validator/admin/logfile/".concat(item)).collect(Collectors.toList());
+		}
+		return null;
     }
 
 }
