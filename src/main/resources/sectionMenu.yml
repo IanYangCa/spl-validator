@@ -31,10 +31,22 @@ sectionMenuList:
              href: /admin/loadBusinessRule
              newWindow: false
              admin: true
+           - text: OIDS
+             textEn: Load OIDS
+             textFr: Load OIDS_fr
+             href: /admin/loadOIDS
+             newWindow: false
+             admin: true
      - sectionName: Other
        sectionNameEn: Other
        sectionNameFr: Fr_Other
        menuLinks:
+           - text: logs
+             textEn: Log Files
+             textFr: fr_Log File
+             href: /admin/logfiles
+             newWindow: true
+             admin: true
            - text: logout
              textEn: Logout
              textFr: fr_Logout
