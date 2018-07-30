@@ -27,7 +27,7 @@ public class LoggerFilesController {
 	    model.addAttribute("files", loadAll(userPath));
 		return "logfiles";
       } catch(Exception e) {
-			model.addAttribute("errorMsg",  "Errors:\n" + StringUtils.join(e.getStackTrace(), "\n"));
+			model.addAttribute("errorMsg",  "Errors:\n" + e.getClass().getSimpleName() + "\n" + StringUtils.join(e.getStackTrace(), "\n"));
 			return "error";
       }
     }
