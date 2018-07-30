@@ -57,7 +57,7 @@ public class LoadBusinessRuleController {
 	        model.addAttribute("userFile", userFile);
 			return "loadBusinessRuleDone";
 		} catch(Exception e) {
-			model.addAttribute("errors", StringUtils.join(e.getStackTrace(), "\n"));
+			model.addAttribute("errors", "Errors:\n" + StringUtils.join(e.getStackTrace(), "\n"));
 			return "error";
 		}
     }
