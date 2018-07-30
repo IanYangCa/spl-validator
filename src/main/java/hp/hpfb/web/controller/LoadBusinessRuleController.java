@@ -76,20 +76,18 @@ public class LoadBusinessRuleController {
 		return null;
     }
     public List<String> loadAll(String root){
-    	
-    	try {
-    		File dir = new File(root);
-    		String[] list = dir.list(new FilenameFilter() {
-    			@Override
-    			public boolean accept(File dir, String name) {
-    				return name.startsWith("business", 0);
-    			}
-    		});
-    		return Arrays.stream(list).map(item -> "/spl-validator/admin/businessRule/".concat(item)).collect(Collectors.toList());
-		} catch(Throwable e) {
-			e.printStackTrace();
+		File dir = new File(root);
+		String[] list = dir.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.startsWith("business", 0);
+			}
+		});
+		if(list != null && list.length > 0) {
+			return Arrays.stream(list).map(item -> "/spl-validator/admin/businessRule/".concat(item)).collect(Collectors.toList());
+		} else {
+			return null;
 		}
-    	return null;
     }
     public Resource loadAsResource(String filename) throws Exception {
         try {
