@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -41,19 +42,24 @@ public class LoadBusinessRuleController {
 		return "loadBusinessRule";
     }
 	@RequestMapping(value="/spl-validator/admin/loadBusinessRule", method=RequestMethod.POST)
-    public String renderXml(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) throws Exception {
+    public String renderXml(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
 		String outputDir = utilities.SRC_RULES_DIR;
-		File dir = new File(outputDir);
-		if(dir == null || ! dir.exists()) {
-			dir.mkdir();
+		try {
+			File dir = new File(outputDir);
+			if(dir == null || ! dir.exists()) {
+				dir.mkdir();
+			}
+	        String filename = outputDir + userFile.getFile().getOriginalFilename();
+	        utilities.backupFile(filename);
+			Path path = Paths.get(filename);
+	        byte[] bytes = userFile.getFile().getBytes();
+	        Files.write(path, bytes, StandardOpenOption.CREATE);
+	        model.addAttribute("userFile", userFile);
+			return "loadBusinessRuleDone";
+		} catch(Exception e) {
+			model.addAttribute("errors", StringUtils.join(e.getStackTrace(), "\n"));
+			return "error";
 		}
-        String filename = outputDir + userFile.getFile().getOriginalFilename();
-        utilities.backupFile(filename);
-		Path path = Paths.get(filename);
-        byte[] bytes = userFile.getFile().getBytes();
-        Files.write(path, bytes, StandardOpenOption.CREATE);
-        model.addAttribute("userFile", userFile);
-		return "loadBusinessRuleDone";
     }
     @RequestMapping("/spl-validator/admin/businessRule/{filename:.+}")
     @ResponseBody
