@@ -57,11 +57,11 @@ public class LoadBusinessRuleController {
 	        model.addAttribute("userFile", userFile);
 			return "loadBusinessRuleDone";
 		} catch(Exception e) {
-			model.addAttribute("errorMsg",  "Errors:\n" + e.getClass().getSimpleName() + "\n" + StringUtils.join(e.getStackTrace(), "\n"));
+			model.addAttribute("errorMsg",  "Errors:\n export dir: " + outputDir + " exception class: "+ e.getClass().getSimpleName() + " \n" + StringUtils.join(e.getStackTrace(), "\n"));
 			return "error";
 		}
     }
-    @RequestMapping("/spl-validator/admin/businessRule/{filename:.+}")
+    @RequestMapping("/admin/businessRule/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
