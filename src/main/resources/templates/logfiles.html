@@ -8,7 +8,7 @@
          <div>
          	<section>
          	<fieldset>
-         	<legend><h3 th:text="#{page.current.logger.files}"></h3>&nbsp:<h5 th:text="${logDir}">test</h5></legend>
+         	<legend><h3 th:text="#{page.current.logger.files}"></h3>&nbsp;<h5 th:text="${logDir}">test</h5></legend>
             <ul>
                 <li th:each="file : ${files}">
                     <a th:href="${file}" th:text="${file}" />

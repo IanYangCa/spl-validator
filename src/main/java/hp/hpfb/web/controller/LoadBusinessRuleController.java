@@ -42,7 +42,7 @@ public class LoadBusinessRuleController {
 		return "loadBusinessRule";
     }
 	@RequestMapping(value="/spl-validator/admin/loadBusinessRule", method=RequestMethod.POST)
-    public String loadBusinessRule(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
+    public String loadingBusinessRule(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
 		String outputDir = utilities.SRC_RULES_DIR;
 		try {
 			File dir = new File(outputDir);
