@@ -41,7 +41,7 @@ public class LoadBusinessRuleController {
       model.addAttribute("files", loadAll(userPath));
 		return "loadBusinessRule";
     }
-	@RequestMapping(value="/spl-validator/admin/loadBusinessRule", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/loadBusinessRule", method=RequestMethod.POST)
     public String loadingBusinessRule(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
 		String outputDir = utilities.SRC_RULES_DIR;
 		try {
