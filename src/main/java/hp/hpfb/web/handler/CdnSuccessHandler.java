@@ -39,7 +39,7 @@ public class CdnSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			        String targetUrl = determineTargetUrl(authentication);
 			        if("admin".equals(targetUrl)) {
 			        	DefaultSavedRequest obj = (DefaultSavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-			        	targetUrl = obj == null ? "/" : obj.getRequestURI();
+			        	targetUrl = obj == null ? "/" : obj.getServletPath();
 			        }
 			        if (response.isCommitted()) {
 			            logger.debug(

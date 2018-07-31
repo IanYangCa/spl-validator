@@ -35,14 +35,14 @@ public class LoadBusinessRuleController {
 	@Autowired
 	private Utilities utilities;
 	@RequestMapping(value="/admin/loadBusinessRule", method=RequestMethod.GET)
-    public String loadBusineseRule(Model model, HttpServletRequest req) throws Exception {
+    public String loadBusinessRule(Model model, HttpServletRequest req) throws Exception {
 		model.addAttribute("userFile", new UserFile());
       String userPath = utilities.SRC_RULES_DIR;
       model.addAttribute("files", loadAll(userPath));
 		return "loadBusinessRule";
     }
 	@RequestMapping(value="/spl-validator/admin/loadBusinessRule", method=RequestMethod.POST)
-    public String loadBusineseRule(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
+    public String loadBusinessRule(Model model, @ModelAttribute UserFile userFile, HttpServletRequest req) {
 		String outputDir = utilities.SRC_RULES_DIR;
 		try {
 			File dir = new File(outputDir);
