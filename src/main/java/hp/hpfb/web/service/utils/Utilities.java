@@ -45,8 +45,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -71,11 +71,11 @@ public class Utilities {
 	public static final String FILE_SEPARATOR = "/";
 	private static final String SEPARATOR = "\n";
 	private static final String YES = "yes";
-	private static final String NO = "no";
+//	private static final String NO = "no";
 	private static final String UTF_8 = "UTF-8";
 	public static String TARGET_BUSINESS_RULE_FILE = "rule";
 	public static Pattern zipPattern = Pattern.compile(".+\\.zip$");
-	private static Logger logger = LoggerFactory.getLogger(Utilities.class);
+	private static Logger logger = LogManager.getLogger(Utilities.class);
 	public static String PROPERTITIES = "properties";
 
 	@Autowired
@@ -96,6 +96,9 @@ public class Utilities {
 	@Autowired
 	@Value("${file.xslt.directory}")
 	public String LOCAL_XSLT_DIR;
+	@Autowired
+	@Value("${file.oid.directory}")
+	public String OIDS_DIR;
 
 	public void removeFile(String filename) {
 		File file = new File(filename);
@@ -136,7 +139,7 @@ public class Utilities {
 		}
 	}
 
-	public String getXSD(String filePath) {
+	public String getXSD(String filePath) throws SAXException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder;
@@ -162,7 +165,10 @@ public class Utilities {
 				}
 			}
 		} catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
-			logger.error("Error:  " + StringUtils.join(e.getStackTrace(), SEPARATOR));
+			logger.error("Error:  " + e.getClass().getName() + "\n----\n" + StringUtils.join(e.getStackTrace(), SEPARATOR));
+			if(SAXException.class.isInstance(e)) {
+				throw new SAXException(e.getMessage());
+			}
 		}
 		return "";
 	}
