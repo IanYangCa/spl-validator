@@ -21,7 +21,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		if("POST".equals(request.getMethod())) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 		} else {
-			response.sendRedirect("/login");
+			response.sendRedirect(request.getContextPath() + "/login");
 		}
 	}
 
