@@ -9,11 +9,11 @@
 </head>
 <body>
     <div layout:fragment="content" class="panel">
-		<h1 id="header-title">jQuery File Upload Plugin Test</h1>
+		<h1 id="header-title" th:text="#{title.loadOIDS}">jQuery File Upload Plugin Test</h1>
 		<div id="container">
 			<span class="btn btn-success fileinput-button">
 		        <i class="glyphicon glyphicon-plus"></i>
-		        <span>Select files...</span>
+		        <span th:text="#{label.selectFiles}">Select files...</span>
 		        <!-- The file input field used as target for the file upload widget -->
 		        <input id="fileupload" type="file" name="files" th:multiple="${true}" />
 		    </span>
@@ -47,7 +47,15 @@
    	                $('<p/>').text(data.jqXHR.responseText).appendTo('#files');
     	        },
     	        fail: function(e, data){
-    	        	window.location.href="/login"
+    	        	result = $.parseJSON(data.jqXHR.responseText);
+    	        	if(result.status == '401'){
+        	        	window.location.href="/login"
+    	        	} else if (result.status == '500'){
+    	        		 $('<p/>').text(result.message).appendTo('#files');
+    	        	} else {
+    	        		window.location.href="/"
+    	        	}
+    	    	}
     	    }).prop('disabled', !$.support.fileInput)
     	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
     	});
