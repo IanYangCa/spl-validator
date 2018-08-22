@@ -1,6 +1,7 @@
 package hp.hpfb.web.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +11,9 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,8 @@ import hp.hpfb.web.service.utils.Utilities;
 
 @Controller
 public class UploadOidsController {
+	private static Logger logger = LogManager.getLogger(UploadOidsController.class);
+
 	@Autowired
 	private Utilities utilities;
 	@RequestMapping(value="/admin/loadOIDS", method=RequestMethod.GET)
@@ -34,12 +40,16 @@ public class UploadOidsController {
 	@RequestMapping(value="/admin/loadOIDS", method=RequestMethod.POST)
     public ResponseEntity<Object> saveOids(@RequestParam("files") MultipartFile file, Model model, HttpServletRequest req) throws Exception {
         String dir = utilities.OIDS_DIR;
-        System.out.println("File name: " + file.getOriginalFilename());
+        logger.info("File name: " + file.getOriginalFilename());
         Path userPath = Paths.get(dir, file.getOriginalFilename());
-        byte[] bytes = file.getBytes();
-        Files.write(userPath, bytes);
-
-//        return new ResponseEntity<>("Invalid file.",HttpStatus.BAD_REQUEST);
+        byte[] bytes;
+		try {
+			bytes = file.getBytes();
+	        Files.write(userPath, bytes);
+		} catch (Exception e) {
+			logger.error("Error (in UploadOidsController): " + StringUtils.join(e.getStackTrace(), "\n"));
+			throw new Exception(e);
+		}
 		return new ResponseEntity<>(file.getOriginalFilename(),HttpStatus.OK);
     }
     public List<String> loadAll(String root){
