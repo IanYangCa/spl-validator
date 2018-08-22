@@ -100,16 +100,16 @@ public class ValidationXmlController {
             	utilities.renderXml(utilities.SRC_RULES_DIR + "stripVestiges.xslt", filename, outputDir + "strip.xml", null);
             	
             	//retrieve parameters from xml file to properties.xml
-            	utilities.renderXml(utilities.SRC_RULES_DIR + Utilities.PROPERTITIES + Utilities.XSLT, filename, outputDir + Utilities.PROPERTITIES + ".xml", null);
-            	Parameters p = utilities.getParameters(utilities.UPLOADED_FOLDER + req.getSession().getId());
+            	utilities.renderXml(utilities.SRC_RULES_DIR + Utilities.PROPERTITIES + Utilities.XSLT, filename, outputDir + Utilities.PROPERTITIES + Utilities.XML, null);
+            	Parameters p = utilities.getParameters(outputDir);
             	Map<String, String> params = new HashMap<String, String>();
             	
             	params.put("display-language",  p.getDisplayLanguage());
-            	utilities.renderXml(utilities.DEST_RULE_DIR + Utilities.TARGET_BUSINESS_RULE_FILE + ".xsl", outputDir + "strip.xml", outputDir + "report0.xml", params);
-            	params.put("oid_loc", "file://c:/temp/oids/");
+            	utilities.renderXml(utilities.DEST_RULE_DIR + Utilities.TARGET_BUSINESS_RULE_FILE + Utilities.XSLT, outputDir + "strip.xml", outputDir + "report0.xml", params);
+            	params.put("oid_loc", utilities.OIDS_DIR);
             	params.put("id",  file.getOriginalFilename());
             	params.put("rule-file", utilities.SRC_RULES_DIR + "hc-rules.xml");
-            	params.put("property-file", "file://" + outputDir + Utilities.PROPERTITIES + Utilities.XML);
+            	params.put("property-file", outputDir + Utilities.PROPERTITIES + Utilities.XML);
 				utilities.renderXml(utilities.SRC_RULES_DIR + "report.xslt", outputDir + "report0.xml", outputDir + "report.xml", params );
 				Report report = utilities.getReportMsgs(outputDir);
 				if(report.getReportMessage() != null && report.getReportMessage().size() > 0) {
