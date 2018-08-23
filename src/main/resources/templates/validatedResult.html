@@ -1,7 +1,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/leftmenu-layout">
 <head>
     <title>Validated Result</title>
-	<link rel="stylesheet" href="/css/spl-validator.css" /></head>
+	<link rel="stylesheet" data-th-href="@{/css/spl-validator.css}" /></head>
 <body>
     <div layout:fragment="content" class="panel">
         <h1 th:text="#{title.validatedResult}" class="panel-title">Validated Result</h1>
