@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -42,6 +44,7 @@ import hp.hpfb.web.service.utils.Utilities;
 
 @Controller
 public class ValidationXmlController {
+	private static Logger logger = LogManager.getLogger(ValidationXmlController.class);
 	
 	@Autowired
 	private XmlSchemaValidatingService service;
@@ -110,6 +113,7 @@ public class ValidationXmlController {
             	params.put("id",  file.getOriginalFilename());
             	params.put("rule-file", utilities.SRC_RULES_DIR + "hc-rules.xml");
             	params.put("property-file", outputDir + Utilities.PROPERTITIES + Utilities.XML);
+            	logger.info("oid_loc:" + utilities.OIDS_DIR);
 				utilities.renderXml(utilities.SRC_RULES_DIR + "report.xslt", outputDir + "report0.xml", outputDir + "report.xml", params );
 				Report report = utilities.getReportMsgs(outputDir);
 				if(report.getReportMessage() != null && report.getReportMessage().size() > 0) {
