@@ -19,12 +19,6 @@ sectionMenuList:
        sectionNameEn: Maintenance
        sectionNameFr: Fr_Maintenance
        menuLinks:
-           - text: XML Stylesheet
-             textEn: XML Stylesheet
-             textFr: XML Stylesheet_fr
-             href: #
-             newWindow: false
-             admin: true
            - text: Business Rule
              textEn: Load Business Rule
              textFr: Business Rule_fr
@@ -41,12 +35,6 @@ sectionMenuList:
        sectionNameEn: Other
        sectionNameFr: Fr_Other
        menuLinks:
-           - text: logs
-             textEn: Log Files
-             textFr: fr_Log File
-             href: /admin/logfiles
-             newWindow: true
-             admin: true
            - text: logout
              textEn: Logout
              textFr: fr_Logout
