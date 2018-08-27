@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -32,6 +35,7 @@ import hp.hpfb.web.service.utils.Utilities;
 
 @Controller
 public class LoadBusinessRuleController {
+    private static final Logger logger = LogManager.getLogger(LoadBusinessRuleController.class);
 	@Autowired
 	private Utilities utilities;
 	@RequestMapping(value="/admin/loadBusinessRule", method=RequestMethod.GET)
@@ -64,30 +68,38 @@ public class LoadBusinessRuleController {
     @RequestMapping("/admin/businessRule/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
         Resource file;
 		try {
 			file = loadAsResource(filename);
 	        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in LoadBusinessRuleController: " + StringUtils.join(e.getStackTrace(), "\n"));
 		}
 		return null;
     }
     public List<String> loadAll(String root){
-		File dir = new File(root);
-		String[] list = dir.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.startsWith("business", 0);
-			}
-		});
-		if(list != null && list.length > 0) {
-			return Arrays.stream(list).map(item -> "/spl-validator/admin/businessRule/".concat(item)).collect(Collectors.toList());
-		} else {
-			return null;
+    	
+    	try {
+			File dir = new File(root);
+			String[] list = dir.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.startsWith("business", 0);
+				}
+			});
+    		String[] files = list;
+    		list = dir.list(new FilenameFilter() {
+    			@Override
+    			public boolean accept(File dir, String name) {
+    				return name.startsWith("hc-rules", 0);
+    			}
+    		});
+    		files = ArrayUtils.addAll(files, list);
+    		return Arrays.stream(files).map(item -> "/admin/businessRule/".concat(item)).collect(Collectors.toList());
+		} catch(Throwable e) {
+			logger.error("Error in LoadBusinessRuleController: " + StringUtils.join(e.getStackTrace(), "\n"));
 		}
+		return null;
     }
     public Resource loadAsResource(String filename) throws Exception {
         try {
@@ -98,7 +110,6 @@ public class LoadBusinessRuleController {
             }
             else {
                 throw new Exception("Could not read file: " + filename);
-
             }
         }
         catch (MalformedURLException e) {
