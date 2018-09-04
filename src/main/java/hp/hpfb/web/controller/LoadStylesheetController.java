@@ -80,7 +80,6 @@ public class LoadStylesheetController {
 			if(dir.isDirectory()) {
 				return Arrays.stream(dir.list()).map(item -> "/admin/stylesheet/".concat(version).concat("/").concat(item)).collect(Collectors.toList()); 
 			}
-	        return null;
 		} catch (Exception e) {
 			logger.error("Error(In LoadStylesheetController): Exception:" + e.getClass().getName() + "\n" + StringUtils.join(e.getStackTrace(), "\n"));
 		}
