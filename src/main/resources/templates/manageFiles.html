@@ -43,6 +43,7 @@
 			$('#filelist').empty();
 			$.getJSON(url + $(element).val(), function(data, status) {
 					if(data != null && data.length > 0){
+						
 						$.each(data, function(index, value){
 							$('#filelist').append('<li class="mrgn-bttm-sm"> &nbsp;<a class="btn btn-danger btn-xs" href="' + serverUrl + value + '/delete" target="_blank">' + [[#{button.delete}]] 
 							+ '</a>&nbsp;<a class="btn btn-primary btn-xs" href=' + serverUrl + value + '/download>' + [[#{button.download}]] + '</a>&nbsp;-->' + value + '</li>');
