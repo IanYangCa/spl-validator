@@ -12,7 +12,7 @@ sectionMenuList:
            - text: Render XML
              textEn: Render XML
              textFr: RenderXml_fr
-             href: #
+             href: /renderXML
              newWindow: false
              admin: false
      - sectionName: Maintenance
