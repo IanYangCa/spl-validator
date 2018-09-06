@@ -33,7 +33,7 @@ public class RenderXmlController {
 
 	@RequestMapping(value="/renderXML", method=RequestMethod.GET)
     public String renderXml(Model model, HttpServletRequest req) throws Exception {
-		model.addAttribute("renderXml", new UserFile());
+		model.addAttribute("userFile", new UserFile());
 		return "renderXml";
     }
 	
@@ -58,13 +58,12 @@ public class RenderXmlController {
 			return "renderXml";
 		}
 		String xmlFilename = file.getPath();
-//		xmlFilename = xmlFilename.substring(xmlFilename.lastIndexOf(Utilities.FILE_SEPARATOR) + 1, xmlFilename.length() - 4);
 		if(file != null) {
 			String xsltFilename = utilities.getXmlStylesheet(outputDir + xmlFilename);
 			String version = xsltFilename.substring(0, xsltFilename.lastIndexOf('/'));
 			version = version.substring(version.lastIndexOf('/') + 1);
 			xsltFilename = xsltFilename.substring(xsltFilename.lastIndexOf('/') + 1);
-			if(renderXml != null && renderXml.getLocal()) {
+			if(renderXml != null && renderXml.getLocal() != null && renderXml.getLocal()) {
 				utilities.renderXml(utilities.LOCAL_XSLT_DIR + version + Utilities.FILE_SEPARATOR + xsltFilename, outputDir + xmlFilename, outputDir + "temp.htm", null);
 			} else {
 				String xsltFileUrl = utilities.getXmlStylesheet(outputDir + xmlFilename);
@@ -95,7 +94,7 @@ public class RenderXmlController {
     }
 	@RequestMapping(value="/xmlHtml", method=RequestMethod.GET)
 	public void xmlHtml(Model model, HttpServletRequest req, HttpServletResponse res) throws Exception {
-		//interrupt by interrupter
+		// add as url for get rendered html file
     }
 
 }
