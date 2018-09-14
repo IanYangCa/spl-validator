@@ -2,14 +2,9 @@ package hp.hpfb.web.service.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import ca.canada.ised.wet.cdts.components.wet.breadcrumbs.AbstractMockMvcTest;
+import hp.hpfb.web.exception.SplException;
 
 public class TestFiles extends AbstractMockMvcTest {
 
@@ -81,7 +77,7 @@ public class TestFiles extends AbstractMockMvcTest {
 
 	}
 //	@Test
-	public void testRenderXml() throws URISyntaxException {
+	public void testRenderXml() throws URISyntaxException, SplException {
 		String xmlFile = "e:/1.xml";
 		String xsltFileUrl = utilities.getXmlStylesheet(xmlFile);
 		String targetFilename = xsltFileUrl.substring(xsltFileUrl.lastIndexOf('/') + 1);
