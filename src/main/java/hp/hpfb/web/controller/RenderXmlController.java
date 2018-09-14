@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import hp.hpfb.web.exception.SplException;
 import hp.hpfb.web.model.UserFile;
 import hp.hpfb.web.service.utils.Utilities;
 
@@ -59,34 +60,38 @@ public class RenderXmlController {
 		}
 		String xmlFilename = file.getPath();
 		if(file != null) {
-			String xsltFilename = utilities.getXmlStylesheet(outputDir + xmlFilename);
-			String version = xsltFilename.substring(0, xsltFilename.lastIndexOf('/'));
-			version = version.substring(version.lastIndexOf('/') + 1);
-			xsltFilename = xsltFilename.substring(xsltFilename.lastIndexOf('/') + 1);
-			if(renderXml != null && renderXml.getLocal() != null && renderXml.getLocal()) {
-				utilities.renderXml(utilities.LOCAL_XSLT_DIR + version + Utilities.FILE_SEPARATOR + xsltFilename, outputDir + xmlFilename, outputDir + "temp.htm", null);
-			} else {
-				String xsltFileUrl = utilities.getXmlStylesheet(outputDir + xmlFilename);
-				if(StringUtils.isNotBlank(xsltFileUrl)) {
-					try {
-						String rootUrl = xsltFileUrl.substring(0, xsltFileUrl.lastIndexOf('/') + 1);
-						String targetFilename = xsltFileUrl.substring(xsltFileUrl.lastIndexOf('/') + 1);
-						utilities.copyURLtoFile(xsltFileUrl, outputDir);
-						String importFilename = utilities.getImportFile(outputDir + targetFilename);
-						if(StringUtils.isNotBlank(importFilename)) {
-							utilities.copyURLtoFile(rootUrl + importFilename, outputDir);
-							importFilename = utilities.getIncludeFile(outputDir + importFilename);
+			try {
+				String xsltFilename = utilities.getXmlStylesheet(outputDir + xmlFilename);
+				String version = xsltFilename.substring(0, xsltFilename.lastIndexOf('/'));
+				version = version.substring(version.lastIndexOf('/') + 1);
+				xsltFilename = xsltFilename.substring(xsltFilename.lastIndexOf('/') + 1);
+				if(renderXml != null && renderXml.getLocal() != null && renderXml.getLocal()) {
+					utilities.renderXml(utilities.LOCAL_XSLT_DIR + version + Utilities.FILE_SEPARATOR + xsltFilename, outputDir + xmlFilename, outputDir + "temp.htm", null);
+				} else {
+					String xsltFileUrl = utilities.getXmlStylesheet(outputDir + xmlFilename);
+					if(StringUtils.isNotBlank(xsltFileUrl)) {
+						try {
+							String rootUrl = xsltFileUrl.substring(0, xsltFileUrl.lastIndexOf('/') + 1);
+							String targetFilename = xsltFileUrl.substring(xsltFileUrl.lastIndexOf('/') + 1);
+							utilities.copyURLtoFile(xsltFileUrl, outputDir);
+							String importFilename = utilities.getImportFile(outputDir + targetFilename);
 							if(StringUtils.isNotBlank(importFilename)) {
 								utilities.copyURLtoFile(rootUrl + importFilename, outputDir);
+								importFilename = utilities.getIncludeFile(outputDir + importFilename);
+								if(StringUtils.isNotBlank(importFilename)) {
+									utilities.copyURLtoFile(rootUrl + importFilename, outputDir);
+								}
 							}
+						} catch (IOException e) {
+							logger.error(StringUtils.join(e.getStackTrace(), '\n'));
+							return "error";
 						}
-					} catch (IOException e) {
-						logger.error(StringUtils.join(e.getStackTrace(), '\n'));
-						return "error";
+						utilities.renderXml(outputDir + xsltFilename, outputDir + file.getPath(), outputDir + "temp.htm", null);
 					}
-					utilities.renderXml(outputDir + xsltFilename, outputDir + file.getPath(), outputDir + "temp.htm", null);
-				}
 
+				}
+			} catch (SplException e) {
+				//TODO add later
 			}
 			
 		}
