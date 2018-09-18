@@ -41,10 +41,14 @@ public class RenderXmlController {
 	@RequestMapping(value="/renderXML", method=RequestMethod.POST)
 	public String renderXmlConfirm(@ModelAttribute UserFile renderXml, Model model, HttpServletRequest req) throws Exception {
 		String outputDir = utilities.UPLOADED_FOLDER + req.getSession().getId() + Utilities.FILE_SEPARATOR;
-		//ToDo load file to default directory
+        File outDir = new File(outputDir);
+        if(outDir != null && outDir.exists()) {
+            utilities.removeFiles(outputDir);
+        } else {
+        	outDir.mkdir();
+        }
         String filename = outputDir + renderXml.getFile().getOriginalFilename();
         byte[] bytes = renderXml.getFile().getBytes();
-        utilities.removeFiles(outputDir);
         Path path = Paths.get(filename);
         Files.write(path, bytes, StandardOpenOption.CREATE);
         if(utilities.isZipFile(filename)) {
