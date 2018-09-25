@@ -149,7 +149,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>spl-validator</finalName>
+		<finalName>spl-validator-test</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
