@@ -47,8 +47,8 @@ public class SideMenuHandler {
     private void checkMenuLink(List<SectionMenu> menus) {
 		for(SectionMenu main : menus) {
 			for(MenuLink sub : main.getMenuLinks()) {
-				if(! sub.getHref().startsWith("/spl-validator-test")) {
-					sub.setHref("/spl-validator-test" + sub.getHref());
+				if(! sub.getHref().startsWith("/spl-validator")) {
+					sub.setHref("/spl-validator" + sub.getHref());
 				} else {
 					return ;
 				}
