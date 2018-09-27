@@ -2,6 +2,7 @@ package hp.hpfb.web.service.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -327,6 +328,9 @@ public class Utilities {
 		} catch(TransformerException e) {
 			logger.error("Error(Exception):  " + StringUtils.join(e.getStackTrace(), SEPARATOR));
 			throw new SplException("TransformerException throwed");
+		} catch (FileNotFoundException e) {
+			String schemaFile = e.getMessage().substring(xmlFile.lastIndexOf(FILE_SEPARATOR) + 1);
+			throw new SplException("SPL-1:SPL-1-001:Validation Report Overview:" + schemaFile + ":Schema Issue: The schema location is incorrect.");
 		} catch(Exception e) {
 			logger.error("Error(Exception):  " + StringUtils.join(e.getStackTrace(), SEPARATOR));
 			throw new SplException("Other Exception throwed");
@@ -493,9 +497,9 @@ public class Utilities {
 		}
 		return new Parameters();
 	}
-	public Parameters writeParameters(Parameters parameters) {
+	public Parameters writeParameters(String outputDir, Parameters parameters) {
 		try {
-			File parametersFile = new File(UPLOADED_FOLDER  + PROPERTITIES + XML);
+			File parametersFile = new File(outputDir  + PROPERTITIES + XML);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Parameters.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
