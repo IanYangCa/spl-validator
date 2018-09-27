@@ -144,7 +144,7 @@ public class Utilities {
 		}
 	}
 
-	public String getXSD(String filePath) throws SAXException {
+	public String getXSD(String filePath) throws SAXException, SplException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder;
@@ -161,6 +161,10 @@ public class Utilities {
 			XPathExpression expr = xpath.compile("//urn:hl7-org:v3:document");
 			Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
 			System.out.println("Node:" + node);
+			if(node == null) {
+				String xmlfile = filePath.substring(filePath.lastIndexOf(FILE_SEPARATOR)+1);
+				throw new SplException("SPL-3:SPL-3-001:Validation Report Overview:" + xmlfile + ":Data Issue: The data is incorrect.");
+			}
 			String attr = null;
 			for (int i = 0; i < node.getAttributes().getLength(); i++) {
 				attr = node.getAttributes().item(i).toString();
@@ -609,6 +613,28 @@ public class Utilities {
 				}
 			}
 			file.renameTo(newFile);
+		}
+	}
+	public void checkSystemDirectory() {
+		File file = new File(UPLOADED_FOLDER);
+		if(file == null || ! file.exists() || ! file.isDirectory()) {
+			logger.error("!!!!!!Please check the directory: " + UPLOADED_FOLDER);
+		}
+		file = new File(SRC_RULES_DIR);
+		if(file == null || ! file.exists() || ! file.isDirectory()) {
+			logger.error("!!!!!!Please check the directory: " + SRC_RULES_DIR);
+		}
+		file = new File(DEST_RULE_DIR);
+		if(file == null || ! file.exists() || ! file.isDirectory()) {
+			logger.error("!!!!!!Please check the directory: " + DEST_RULE_DIR);
+		}
+		file = new File(LOCAL_XSLT_DIR);
+		if(file == null || ! file.exists() || ! file.isDirectory()) {
+			logger.error("!!!!!!Please check the directory: " + LOCAL_XSLT_DIR);
+		}
+		file = new File(OIDS_DIR);
+		if(file == null || ! file.exists() || ! file.isDirectory()) {
+			logger.error("!!!!!!Please check the directory: " + OIDS_DIR);
 		}
 	}
 }
