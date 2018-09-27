@@ -111,18 +111,16 @@ public class ValidationXmlController {
 			} catch (SAXException e) {
 				hasException = false;
 				errors = new ArrayList<String>(1);
-				errors.add("Bad XML Format!");
 				errors.add("Read XML File:Parse Exception:Bad XML Format!");
 			} catch (RuntimeException e) {
 				hasException = false;
 				errors = new ArrayList<String>(1);
-				errors.add("Bad XML Format!");
 				errors.add("Read XML File:Parse Exception:Bad XML Format!");
 			} catch (SplException e) {
 				System.out.println("SplException: " + e.getErrorMsg());
 				hasException = true;
 				errors = new ArrayList<String>(1);
-				errors.add("Bad XML Format!");
+				errors.add("Read XML File:Parse Exception:Bad XML Format!");
         		Errors errs = new Errors();
         		errs.setFailedAssert(new FailedAssert());
         		String[] msgs = StringUtils.split(e.getErrorMsg(), ':');
