@@ -20,7 +20,7 @@ public class TestReadDataFromXml  extends AbstractMockMvcTest {
 	private Utilities utilities;
 	
 	@Test
-	public void testGetXSD() throws SAXException {
+	public void testGetXSD() throws SAXException, SplException {
 		String result = utilities.getXSD("src/test/resources/testFile.xml");
 		System.out.println("Result:" + result);
 		assertTrue(condition.matcher(result).find());
