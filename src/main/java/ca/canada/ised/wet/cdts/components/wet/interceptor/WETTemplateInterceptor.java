@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -96,18 +97,34 @@ public class WETTemplateInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
         throws Exception {
-    	if(request.getRequestURI().endsWith("xmlHtml")) {
+    	String uri = request.getRequestURI();
+    	if(uri.indexOf("xmlHtml") > -1) {
     		System.out.println("uri: " + request.getRequestURI());
-    		Path path = Paths.get(utilities.UPLOADED_FOLDER, request.getSession().getId(), Utilities.FILE_SEPARATOR,"temp.htm");
-    		File f = path.toFile();
-    		if(f != null & f.length() > 0) {
-    			response.setContentType(MediaType.TEXT_HTML.toString());
-    			response.setCharacterEncoding("UTF-8");
-    			PrintWriter writer = response.getWriter();
-    			Files.lines(path, StandardCharsets.UTF_8).forEach(writer:: print);
-    			writer.flush();
-    			writer.close();
-    			return false;
+    		if(uri.endsWith(".html")) {
+        		Path path = Paths.get(utilities.UPLOADED_FOLDER, request.getSession().getId(), Utilities.FILE_SEPARATOR,"temp.htm");
+        		File f = path.toFile();
+        		if(f != null & f.length() > 0) {
+        			response.setContentType(MediaType.TEXT_HTML.toString());
+        			response.setCharacterEncoding("UTF-8");
+        			PrintWriter writer = response.getWriter();
+        			Files.lines(path, StandardCharsets.UTF_8).forEach(writer:: print);
+        			writer.flush();
+        			writer.close();
+        			return false;
+            	} 
+    		} else {
+        		Path img = Paths.get(utilities.UPLOADED_FOLDER, request.getSession().getId(), Utilities.FILE_SEPARATOR, uri.substring(uri.lastIndexOf('/')+1));
+        		File f = img.toFile();
+        		if(f != null & f.length() > 0) {
+        			response.setContentType(MediaType.IMAGE_GIF_VALUE.toString());
+        			
+        			ServletOutputStream writer = response.getOutputStream();
+        			byte[] buffer = Files.readAllBytes(img);
+        			writer.write(buffer);
+        			writer.flush();
+        			writer.close();
+        			return false;
+        		}
     		}
     	}
         return true;

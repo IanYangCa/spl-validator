@@ -101,7 +101,7 @@ public class RenderXmlController {
 		}
 		return "renderXmlDone";
     }
-	@RequestMapping(value="/xmlHtml", method=RequestMethod.GET)
+	@RequestMapping(value="/xmlHtml/*", method=RequestMethod.GET)
 	public void xmlHtml(Model model, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		// add as url for get rendered html file
     }

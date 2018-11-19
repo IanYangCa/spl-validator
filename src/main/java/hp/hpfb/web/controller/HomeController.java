@@ -22,10 +22,14 @@ public class HomeController {
 	        return "leftMenu";
 	    }
 
-	    @RequestMapping("/error/403")
-	    public String error403() {
-	        return "error/403";
-	    }
+//	    @RequestMapping("/error/403")
+//	    public String error403() {
+//	        return "error/403";
+//	    }
+//	    @RequestMapping("/error")
+//	    public String error() {
+//	        return "error";
+//	    }
 	    @RequestMapping("/login")
 	    public String login(Model model, HttpServletRequest req) {
 	    	String logout = req.getParameter("logout");

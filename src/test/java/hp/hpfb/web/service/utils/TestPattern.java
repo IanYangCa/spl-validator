@@ -13,7 +13,22 @@ import org.junit.Test;
 
 public class TestPattern {
 	String test = "C:\\Users\\hcuser\\Downloads\\test\\data\\input\\2.zip";
-	public static Pattern zipPattern = Pattern.compile(".+\\.zip$");
+	String img = "C:\\Users\\hcuser\\Downloads\\test\\data\\input\\2.BMP";
+	public static Pattern zipPattern = Pattern.compile(".+\\.zip$", Pattern.CASE_INSENSITIVE);
+	public static Pattern imgPatterns = Pattern.compile("\\.jpg$|\\.jpeg$|\\.png$|\\.gif$|\\.bmp$", Pattern.CASE_INSENSITIVE);
+
+	@Test
+	public void testImg() {
+		Matcher matcher = imgPatterns.matcher(img);
+		if (matcher.find()) {
+            System.out.println("Start index: " + matcher.start());
+            System.out.println(" End index: " + matcher.end() + " ");
+            System.out.println(matcher.group());
+            System.out.println("size: " + test.length());
+        } else {
+        	System.out.println("IMG Not Match!!");
+        }
+	}
 	
 	@Test
 	public void testZip() {
@@ -24,10 +39,9 @@ public class TestPattern {
             System.out.println(matcher.group());
             System.out.println("size: " + test.length());
         } else {
-        	System.out.println("Not Match!!");
+        	System.out.println("ZIP Not Match!!");
         }
 	}
-	
 	@Test
 	public void testFormat() {
 		for(int i = 0 ; i < 10; i++) {
