@@ -59,7 +59,7 @@ public class TestReadDataFromXml  extends AbstractMockMvcTest {
 			}
 		}
 	}
-	@Test
+//	@Test
 	public void testWriteXML() {
 		utilities.writeObjectToXml(utilities.UPLOADED_FOLDER + "properties.xml", new Parameters());
 		Parameters p = utilities.getObjectFromXml(Parameters.class, utilities.UPLOADED_FOLDER + "properties.xml");

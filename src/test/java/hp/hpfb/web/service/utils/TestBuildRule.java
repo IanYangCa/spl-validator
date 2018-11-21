@@ -9,7 +9,7 @@ public class TestBuildRule extends AbstractMockMvcTest {
 	@Autowired
 	private Utilities utilities;
 
-	@Test
+//	@Test
 	public void testRule() {
 		utilities.buildRule("C:/TEMP/XML_Schema_Validator/iso_dsdl_include.xsl", "C:/TEMP/XML_Schema_Validator/business-rules.sch", "c:/TEMP/rule/test.xsl", true);
 	}
