@@ -12,7 +12,7 @@ public class TestBuildBusinessRule extends AbstractMockMvcTest {
 	private Utilities utilities;
 	@Autowired
 	public Environment env;
-	@Test
+//	@Test
 	public void testBuildBusinessRule() throws SplException {
 		System.out.println("test:" + utilities.UPLOADED_FOLDER);
 		utilities.rebuildBusinessRule();

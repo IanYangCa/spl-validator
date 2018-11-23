@@ -10,7 +10,7 @@ import hp.hpfb.web.service.impl.XmlSchemaValidatingServiceImpl;
 
 public class TestSchemaVerify {
 	
-	@Test
+//	@Test
 	public void testVerifyXml() throws SAXException, SplException {
 		XmlSchemaValidatingService service = new XmlSchemaValidatingServiceImpl();
 		List<String> errors = service.verifyXml("src/test/resources/1.xml");

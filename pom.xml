@@ -29,7 +29,7 @@
 		<git.project.id>wet-boew</git.project.id>
 		<git.repo.name>spring-boot-thymeleaf</git.repo.name>
 		<!-- The main class to start by executing java -jar -->
-		<start-class>com.mkyong.SpringBootWebApplication</start-class>
+<!-- 		<start-class>com.mkyong.SpringBootWebApplication</start-class> -->
 		<main.basedir>${basedir}/../..</main.basedir>
 		<m2eclipse.wtp.contextRoot>/IP602</m2eclipse.wtp.contextRoot>
   	</properties>
@@ -152,6 +152,17 @@
 		<finalName>spl-validator-test</finalName>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.17</version>
+					<configuration>
+						<excludes>
+							<exclude>**/*Test.java</exclude>
+							<exclude>**/Test*.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
